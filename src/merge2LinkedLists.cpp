@@ -19,5 +19,71 @@ struct node {
 };
 
 struct node * merge2LinkedLists(struct node *head1, struct node *head2) {
-	return NULL;
+	if (head1 != NULL || head2 != NULL){
+		struct node *merge;
+		if (head1 == NULL){
+			return head2;
+		}
+		else if (head2 == NULL){
+			return head1;
+		}
+		else{
+			struct node  *tempA, *tempB, *rA, *rB;
+			tempA = head1;
+			tempB = head2;
+			int lenA = 0, lenB = 0;
+			while (tempA != NULL&&tempB != NULL){
+				if (tempA->num <= tempB->num){
+					if (tempA->next != NULL){
+						if (tempB->num < tempA->next->num){
+							rA = tempA->next;
+							tempA->next = tempB;
+							tempA = rA;
+						}
+						else{
+							tempA = tempA->next;
+							lenA++;
+						}
+					}
+					else{
+						tempA->next = tempB;
+						if (lenB > 0 && lenA==0){
+							merge = head2;
+						}
+						else{
+							merge = head1;
+						}
+						tempA = NULL;
+					}
+				}
+				else{
+					if (tempB->next != NULL){
+						if (tempA->num <= tempB->next->num){
+							rB = tempB->next;
+							tempB->next = tempA;
+							tempB = rB;
+						}
+						else{
+							tempB = tempB->next;
+							lenB++;
+						}
+					}
+					else{
+						tempB->next = tempA;
+						if (lenA > 0 && lenB==0){
+							merge = head1;
+						}
+						else{
+							merge = head2;
+						}
+						tempB = NULL;
+					}
+				}
+			}
+			return merge;
+		}
+	}
+	else{
+		return NULL;
+	}
 }
